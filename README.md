@@ -5,6 +5,11 @@
     gives you <strong>ultimate</strong> control.
   </p>
 </div>
+</br>
+
+```bash
+$ yarn global add observations
+```
 
 ```javascript
 import Observations from 'observations'
@@ -31,4 +36,8 @@ Observations.register({
     ])
   }
 })
+```
+
+```bash
+$ observations
 ```
