@@ -1,20 +1,24 @@
 {
   "name": "observations",
-  "version": "0.0.0",
-  "main": "/bin/index.js",
+  "version": "0.0.11",
+  "main": "bin/index.js",
+  "bin": {
+    "observations": "bin/index.js"
+  },
+  "files": ["bin", "README.md", "bin/index.js"],
   "author": "Colton Colcleasure <colshacol@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "node ./watch.config",
-    "start": "npm run compile && node ./watch.config",
+    "test": "node ./observations",
+    "start": "npm run compile && node ./observations",
     "compile": "tsc -p ./tsconfig.json"
   },
   "dependencies": {
-    "chokidar": "^1.6.1",
-    "forever": "^0.15.3"
+    "chokidar": "^1.6.1"
   },
   "devDependencies": {
     "@types/node": "^7.0.16",
+    "observations": "^0.0.1",
     "typescript": "^2.3.2"
   }
 }
