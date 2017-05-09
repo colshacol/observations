@@ -5,6 +5,7 @@
   "author": "Colton Colcleasure <colshacol@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "test": "node ./watch.config",
     "start": "npm run compile && node ./watch.config",
     "compile": "tsc -p ./tsconfig.json"
   },

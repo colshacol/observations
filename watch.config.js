@@ -1,26 +1,22 @@
 const Observations = require('./bin/index')
 
 Observations.register({
-  name: 'js',
-  match: ['./**/*.js'],
-  ignore: './watch.config.js',
+  name: 'ts-watcher',
+  match: ['./src/**/*.ts'],
   persistent: true,
   execOnInit: false,
 
-  onError(error) {
+  handleError(error) {
     console.log(`Got an error, dude!`)
   },
 
-  onOutput(output) {
+  handleOutput(output) {
     console.log(`Got output, dude!`)
   },
 
-  onChange(observation) {
-    // Here you have the potential to do cool stuff
-    // to generate a dynamic set of commands to be
-    // executed by the observation.
+  handleChange(observation) {
     observation.exec([
-      'ls'
+      'tsc -p ./tsconfig.json'
     ])
   }
 })
@@ -32,15 +28,15 @@ Observations.register({
   match: ['./**/*.css'],
   execOnInit: false,
 
-  onError(error) {
+  handleError(error) {
     console.log(`[Error:1] ${error}`)
   },
 
-  onOutput(output) {
+  handleOutput(output) {
     console.log(`[Output:1] ${output}`)
   },
 
-  onChange(observation) {
+  handleChange(observation) {
     observation.exec([
       'ls -a src'
     ])

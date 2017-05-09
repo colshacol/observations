@@ -1,50 +1,39 @@
 const childProcess = require('child_process')
 const chokidar = require('chokidar')
 
-import { killProcesses } from './utils/processes'
+import { killProcesses, dissectCommand, applyEventHandlers } from './utils/processes'
+import { defaultObservation } from './utils/observations'
 
 interface Observation {
-  onChange: (options: any) => string[],
-  onOutput: (output: any) => string[],
-  onError: (error: any) => string[],
+  onProcessClose?: (info: any) => any,
+  handleChange?: (options: any) => any,
+  handleOutput?: (output: any) => any,
+  handleError?: (error: any) => any,
+  name?: string,
   match: string[],
   ignore?: string[],
   persistent?: boolean,
 }
 
-
 function Observations() {
   return {
     register(observation: Observation) {
-      let processes = []
+      const observable = { ...defaultObservation, ...observation }
 
-      const observer = chokidar.watch(observation.match, {
-        ignored: observation.ignore || '',
-        persistent: observation.persistent || true,
+      const observer = chokidar.watch(observable.match, {
+        ignored: observable.ignore,
+        persistent: observable.persistent,
       })
       
+      let processes = []
       observer.on('change', (path: any) => {
         killProcesses(processes)
 
-        observation.onChange({ path, exec(commands) {
+        observable.handleChange({ path, exec(commands) {
           processes = commands.map((command: string) => {
-            const cmd = command.split(' ')
-            console.log(cmd[0], cmd.slice(1))
-            const process = childProcess.spawn(cmd[0], cmd.slice(1))
-
-            process.stdout.on('data', (data) => {
-              observation.onOutput(`${data}`)
-            })
-
-            process.stderr.on('data', (error) => {
-              observation.onError(`${error}`)
-              console.log(`${error}`)
-            })
-
-            process.on('close', (code) => {
-              console.log(`[Observations:] (${command}) closed with code ${code}.`)              
-            })
-
+            const [ cmd, args ] = dissectCommand(command)
+            const process = childProcess.spawn(cmd, args)
+            applyEventHandlers(process)(observable)
             return process
           })
         }})
@@ -54,3 +43,5 @@ function Observations() {
 }
 
 module.exports = Observations()
+
+
