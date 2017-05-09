@@ -3,18 +3,7 @@ const childProcess = require('child_process')
 const chokidar = require('chokidar')
 
 import { killProcesses, dissectCommand, applyEventHandlers } from './utils/processes'
-import { defaultObservation } from './utils/observations'
-
-interface Observation {
-  onProcessClose?: (info: any) => any,
-  handleChange?: (options: any) => any,
-  handleOutput?: (output: any) => any,
-  handleError?: (error: any) => any,
-  name?: string,
-  match: string[],
-  ignore?: string[],
-  persistent?: boolean,
-}
+import { defaultObservation, Observation } from './utils/observations'
 
 function Observations() {
   return {

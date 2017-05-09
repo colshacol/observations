@@ -1,4 +1,4 @@
-const Observations = require('./bin')
+const Observations = require('observations')
 
 Observations.register({
   name: 'ts-watcher',
