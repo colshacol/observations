@@ -7,7 +7,7 @@
 </div>
 </br>
 
-_Don't try this at home. It isn't yet ready for your dirty hands._
+_Be hesitatnt to try this at home. This tool is very wobbly._
 
 ```bash
 $ yarn add -D observations
